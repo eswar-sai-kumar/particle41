@@ -1,5 +1,5 @@
 variable "project_name" {
-    default = "expense"
+    default = "task2-infra"
 }
 
 variable "environment" {
@@ -8,8 +8,7 @@ variable "environment" {
 
 variable "common_tags" {
     default = {
-        Project = "expense"
-        Environment = "dev"
+        Project = "task2-infra"
         Terraform = "true"
     }
 }
@@ -20,10 +19,6 @@ variable "public_subnet_cidrs" {
 
 variable "private_subnet_cidrs" {
     default = ["10.0.11.0/24","10.0.12.0/24"]
-}
-
-variable "database_subnet_cidrs" {
-    default = ["10.0.21.0/24","10.0.22.0/24"]
 }
 
 variable "is_peering_required" {
