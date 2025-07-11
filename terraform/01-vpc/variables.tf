@@ -9,6 +9,7 @@ variable "environment" {
 variable "common_tags" {
     default = {
         Project = "task2-infra"
+        Environment = "dev"
         Terraform = "true"
     }
 }
@@ -22,9 +23,8 @@ variable "private_subnet_cidrs" {
 }
 
 variable "database_subnet_cidrs" {
-  default = []
+    default = ["10.0.21.0/24","10.0.22.0/24"]
 }
-
 
 variable "is_peering_required" {
   default = true

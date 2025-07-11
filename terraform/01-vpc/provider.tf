@@ -9,8 +9,7 @@ terraform {
     bucket = "s3bucket-project-devops"
     key    = "task2-infra"
     region = "us-east-1"
-    use_lockfile  = true 
-    // instead of use_lockfile = true, we can also use dynamodb
+    use_lockfile  = true
   }
 }
 
