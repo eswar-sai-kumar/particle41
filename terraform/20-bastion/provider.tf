@@ -2,14 +2,14 @@ terraform {
   required_providers {
     aws = {
       source = "hashicorp/aws"
-      version = "5.48.0"
+      version = ">= 6.0.0" 
     }
   }
   backend "s3" {
     bucket = "s3bucket-project-devops"
-    key    = "task2-infra"
+    key    = "expense-dev-bastion"
     region = "us-east-1"
-    use_lockfile  = true
+    use_lockfile = true
   }
 }
 
