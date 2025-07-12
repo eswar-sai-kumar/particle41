@@ -1,13 +1,22 @@
-FROM node:20.15.0-alpine3.20
+FROM node:20-alpine
 
-EXPOSE 8080
-ENV DB_HOST=mysql
-RUN addgroup -S expense && adduser -S expense -G expense \
-    && mkdir /opt/server \
-    && chown expense:expense -R /opt/server
-WORKDIR /opt/server
-COPY package.json .
-COPY *.js /opt/server/
+# Create non-root user
+RUN addgroup -S appgroup && adduser -S appuser -G appgroup
+
+# Create app directory
+WORKDIR /opt/app
+
+# Copy files
+COPY . .
+
+# Install dependencies
 RUN npm install
-USER expense
-CMD [ "node","index.js" ]
+
+# Use non-root user
+USER appuser
+
+# Expose port
+EXPOSE 8080
+
+# Run app
+CMD ["npm", "start"]
