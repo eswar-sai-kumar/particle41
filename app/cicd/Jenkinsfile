@@ -1,0 +1,56 @@
+pipeline {
+    agent any
+
+    environment {
+        IMAGE_NAME = 'eswarsaikumar/simpletimeservice'
+        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' // ID of credentials in Jenkins
+    }
+
+    stages {
+        stage('Checkout Code') {
+            steps {
+                git url: 'https://github.com/eswar-sai-kumar/simple-time-service.git'
+            }
+        }
+
+        stage('Install Dependencies') {
+            steps {
+                sh 'npm install'
+            }
+        }
+
+        stage('Run Tests') {
+            steps {
+                echo 'No tests configured - skipping'
+                // You can add unit tests here if needed
+            }
+        }
+
+        stage('Build Docker Image') {
+            steps {
+                script {
+                    docker.build("${IMAGE_NAME}")
+                }
+            }
+        }
+
+        stage('Push to DockerHub') {
+            steps {
+                script {
+                    docker.withRegistry('https://index.docker.io/v1/', "${DOCKER_CREDENTIALS_ID}") {
+                        docker.image("${IMAGE_NAME}").push()
+                    }
+                }
+            }
+        }
+    }
+
+    post {
+        success {
+            echo 'Build and Push completed successfully!'
+        }
+        failure {
+            echo 'Something went wrong!'
+        }
+    }
+}
