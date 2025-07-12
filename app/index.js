@@ -1,12 +1,14 @@
 const express = require('express');
+const moment = require('moment-timezone');
+
 const app = express();
 
 app.get('/', (req, res) => {
-  const timestamp = new Date().toISOString();
+  const timestampIST = moment().tz('Asia/Kolkata').format(); // Get current IST time
   const ip = req.headers['x-forwarded-for'] || req.socket.remoteAddress;
-  
+
   res.json({
-    timestamp: timestamp,
+    timestamp: timestampIST,
     ip: ip
   });
 });
