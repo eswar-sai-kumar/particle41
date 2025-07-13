@@ -9,13 +9,15 @@ pipeline {
     stages {
         stage('Checkout Code') {
             steps {
-                git url: 'https://github.com/eswar-sai-kumar/simple-time-service.git', credentialsId: 'github-credentials'
+                git url: 'https://github.com/eswar-sai-kumar/particle41.git', credentialsId: 'github-credentials'
             }
         }
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm install'
+                dir('app') {
+                    sh 'npm install'
+                }
             }
         }
 
@@ -29,7 +31,7 @@ pipeline {
         stage('Build Docker Image') {
             steps {
                 script {
-                    docker.build("${IMAGE_NAME}")
+                    docker.build("${IMAGE_NAME}", "app")
                 }
             }
         }
