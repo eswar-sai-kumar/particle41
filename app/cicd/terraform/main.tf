@@ -2,17 +2,11 @@ module "jenkins" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
   name                   = "jenkins"
-  instance_type          = "t3.large"
+  instance_type          = "t3.medium"
   vpc_security_group_ids = ["sg-0fb4314a3e3c19b76"]
   subnet_id              = "subnet-026fa8e1dc737230f"
   ami                    = data.aws_ami.ami_info.id
   user_data              = file("jenkins.sh")
-
-  root_block_device = {
-    volume_size           = 50
-    volume_type           = "gp3"
-    delete_on_termination = true
-  }
 
   tags = {
     Name = "jenkins"
