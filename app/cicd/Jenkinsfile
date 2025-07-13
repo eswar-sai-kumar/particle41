@@ -37,13 +37,12 @@ pipeline {
             steps {
                 script {
                     def applyDirs = ['00-vpc', '10-sg', '20-bastion', '50-acm', '60-ingress-alb', '70-ecr']
-                    def destroyDirs = applyDirs.reverse()  // Reverse order for destroy
-
+                    def destroyDirs = applyDirs.reverse()
                     def tfDirs = (env.TF_ACTION == 'apply') ? applyDirs : destroyDirs
 
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
-                        for (def dir : tfDirs) {
-                            dir("terraform/${dir}") {
+                        for (def tfDir : tfDirs) {
+                            dir "terraform/${tfDir}" {
                                 sh 'terraform init'
 
                                 if (env.TF_ACTION == 'apply') {
@@ -60,6 +59,7 @@ pipeline {
                 }
             }
         }
+
 
         stage('Build Docker Image') {
             steps {
