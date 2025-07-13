@@ -6,7 +6,7 @@ pipeline {
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' 
         AWS_CREDENTIALS_ID = 'aws-credentials'
         AWS_REGION = 'us-east-1'
-        ECR_REPO_NAME = 'simpletimeservice'
+        ECR_REPO_NAME = 'expense-simpletimeservice'
     }
    
     stages {
