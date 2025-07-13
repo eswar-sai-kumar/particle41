@@ -55,9 +55,6 @@ pipeline {
         }
 
         stage('Push to Amazon ECR') {
-            when {
-                expression { return env.TF_ACTION == 'apply' }
-            }
             steps {
                 script {
                     withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
