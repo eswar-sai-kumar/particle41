@@ -68,7 +68,7 @@ pipeline {
                             docker push ${ecrUrl}
 
                             echo "Running the Docker container from ECR image..."
-                            docker run -d -p 3000:3000 ${ecrUrl}
+                            docker run -d -p 8081:8080 ${ecrUrl}
                         """
                     }
                 }
