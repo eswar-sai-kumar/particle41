@@ -1,4 +1,4 @@
-resource "aws_ecr_repository" "simpletimeservice" {
+resource "aws_ecr_repository" "expense-simpletimeservice" {
   name                 = "${var.project_name}-simpletimeservice"
   image_tag_mutability = "IMMUTABLE"
 
