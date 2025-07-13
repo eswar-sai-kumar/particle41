@@ -35,30 +35,33 @@ pipeline {
         }
         stage('Terraform - Manage Infra') {
             steps {
-                script {
-                    def applyDirs = ['00-vpc', '10-sg', '20-bastion', '50-acm', '60-ingress-alb', '70-ecr']
-                    def destroyDirs = applyDirs.reverse()
-                    def tfDirs = (env.TF_ACTION == 'apply') ? applyDirs : destroyDirs
+                    script {
+                        def applyDirs = ['00-vpc', '10-sg', '20-bastion', '50-acm', '60-ingress-alb', '70-ecr']
+                        def destroyDirs = applyDirs.reverse()
+                        def tfDirs = (env.TF_ACTION == 'apply') ? applyDirs : destroyDirs
 
-                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
-                        for (def tfDir : tfDirs) {
-                            dir "terraform/${tfDir}" {
-                                sh 'terraform init'
+                        withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
+                            for (def tfDir in tfDirs) {
+                                echo "Running Terraform in terraform/${tfDir}"
 
-                                if (env.TF_ACTION == 'apply') {
-                                    sh '''
-                                        terraform plan -out=tfplan
-                                        terraform apply -auto-approve tfplan
-                                    '''
-                                } else if (env.TF_ACTION == 'destroy') {
-                                    sh 'terraform destroy -auto-approve'
+                                // Use "steps.dir" to ensure proper binding inside loop
+                                steps.dir("terraform/${tfDir}") {
+                                    sh 'terraform init'
+
+                                    if (env.TF_ACTION == 'apply') {
+                                        sh '''
+                                            terraform plan -out=tfplan
+                                            terraform apply -auto-approve tfplan
+                                        '''
+                                    } else if (env.TF_ACTION == 'destroy') {
+                                        sh 'terraform destroy -auto-approve'
+                                    }
                                 }
                             }
                         }
                     }
                 }
             }
-        }
 
 
         stage('Build Docker Image') {
