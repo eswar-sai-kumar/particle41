@@ -1,5 +1,5 @@
-resource "aws_ecr_repository" "backend" {
-  name                 = "${var.project_name}-backend"
+resource "aws_ecr_repository" "simpletimeservice" {
+  name                 = "${var.project_name}-simpletimeservice"
   image_tag_mutability = "IMMUTABLE"
 
   image_scanning_configuration {

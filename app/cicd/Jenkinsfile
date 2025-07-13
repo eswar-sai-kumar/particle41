@@ -3,7 +3,10 @@ pipeline {
 
     environment {
         IMAGE_NAME = 'eswarsaikumar/simpletimeservice'
-        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' // ID of credentials in Jenkins
+        DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' 
+        AWS_CREDENTIALS_ID = 'aws-credentials'
+        AWS_REGION = 'us-east-1'
+        ECR_REPO_NAME = 'simpletimeservice'
     }
 
     stages {
@@ -30,6 +33,33 @@ pipeline {
                 // You can add unit tests here if needed
             }
         }
+        stage('Terraform - Manage Infra') {
+            steps {
+                script {
+                    def applyDirs = ['00-vpc', '10-sg', '20-bastion', '50-acm', '60-ingress-alb', '70-ecr']
+                    def destroyDirs = applyDirs.reverse()  // Reverse order for destroy
+
+                    def tfDirs = (env.TF_ACTION == 'apply') ? applyDirs : destroyDirs
+
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
+                        for (def dir : tfDirs) {
+                            dir("terraform/${dir}") {
+                                sh 'terraform init'
+
+                                if (env.TF_ACTION == 'apply') {
+                                    sh '''
+                                        terraform plan -out=tfplan
+                                        terraform apply -auto-approve tfplan
+                                    '''
+                                } else if (env.TF_ACTION == 'destroy') {
+                                    sh 'terraform destroy -auto-approve'
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
 
         stage('Build Docker Image') {
             steps {
@@ -48,14 +78,35 @@ pipeline {
                 }
             }
         }
-    }
 
-    post {
-        success {
-            echo 'Build and Push completed successfully!'
+        stage('Push to Amazon ECR') {
+            when {
+                expression { return env.TF_ACTION == 'apply' }
+            }
+            steps {
+                script {
+                    withCredentials([[$class: 'AmazonWebServicesCredentialsBinding', credentialsId: "${AWS_CREDENTIALS_ID}"]]) {
+                        def accountId = sh(script: "aws sts get-caller-identity --query Account --output text", returnStdout: true).trim()
+                        def ecrUrl = "${accountId}.dkr.ecr.${AWS_REGION}.amazonaws.com/${ECR_REPO_NAME}"
+
+                        sh """
+                            aws ecr get-login-password --region ${AWS_REGION} | \
+                            docker login --username AWS --password-stdin ${ecrUrl}
+
+                            docker tag ${IMAGE_NAME} ${ecrUrl}
+                            docker push ${ecrUrl}
+                        """
+                    }
+                }
+            }
         }
-        failure {
-            echo 'Something went wrong!'
+
+        post {
+            success {
+                echo 'Build and Push completed successfully!'
+            }
+            failure {
+                echo 'Something went wrong!'
+            }
         }
-    }
 }
