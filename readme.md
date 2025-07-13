@@ -185,7 +185,7 @@ docker pull <your-dockerhub-username>/simpletimeservice:latest
 ## 📧 Submission
 
 Please clone the repository from:  
-🔗 https://github.com/<eswar-sai-kumar>/particle41
+🔗 https://github.com/eswar-sai-kumar/particle41
 
 If you have any questions or issues, feel free to contact me.
 
