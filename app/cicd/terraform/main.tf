@@ -1,7 +1,7 @@
 module "jenkins" {
   source  = "terraform-aws-modules/ec2-instance/aws"
 
-  name = "jenkins-tf"
+  name = "jenkins"
 
   instance_type          = "t3.small"
   vpc_security_group_ids = ["sg-0fb4314a3e3c19b76"] #replace your SG
@@ -9,7 +9,7 @@ module "jenkins" {
   ami = data.aws_ami.ami_info.id
   user_data = file("jenkins.sh")
   tags = {
-    Name = "jenkins-tf"
+    Name = "jenkins"
   }
 }
 
@@ -39,5 +39,4 @@ module "records" {
       allow_overwrite = true
     }
   ]
-
 }
