@@ -10,14 +10,17 @@ Welcome to my submission for the Particle41 DevOps Team Challenge. This reposito
 ```
 particle41/
 ├── app/                    # Application code and Dockerfile
-│   ├── cicd/               # Jenkins setup and Jenkinsfile
-│   │   └── terraform/      # Terraform to provision Jenkins instance
+│   ├── cicd/               # Jenkins setup and 
+│   │   └── terraform/      # Terraform to create Jenkins instance
+│   │   └── Jenkinsfile     
 │   ├── .dockerignore
 │   ├── Dockerfile
 │   ├── index.js
 │   └── package.json
 ├── terraform/              # Terraform to create VPC, ECS, ALB, etc.
 └── .gitignore
+└── readme.md
+
 ```
 
 ---
@@ -27,7 +30,7 @@ particle41/
 Build and deploy a simple web service called `SimpleTimeService`, which:
 
 - Returns a JSON response with the visitor’s IP and the current timestamp
-- Is containerized using Docker and published to DockerHub/ECR
+- Is containerized using Docker and published to DockerHub and ECR
 - Runs as a non-root user
 - Is deployed on ECS via Terraform infrastructure
 - Uses Jenkins for CI/CD pipeline
@@ -39,7 +42,7 @@ Build and deploy a simple web service called `SimpleTimeService`, which:
 Access the app (replace `<PUBLIC-IP>` with actual Jenkins server IP):
 
 ```
-http://<PUBLIC-IP>:8081
+http://<PUBLIC-IP>:8080
 ```
 
 ---
@@ -48,12 +51,10 @@ http://<PUBLIC-IP>:8081
 
 To deploy and test the project, install the following tools:
 
-- [Docker](https://docs.docker.com/get-docker/)
-- [Node.js](https://nodejs.org/)
-- [Terraform](https://developer.hashicorp.com/terraform/install)
-- [AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/install-cliv2.html)
-- [Git](https://git-scm.com/)
-- [Jenkins](https://www.jenkins.io/)
+- AWS account
+- Dockerhub account
+- Terraform installation
+- Git installation
 
 ---
 
@@ -61,9 +62,9 @@ To deploy and test the project, install the following tools:
 
 Make sure you configure the following credentials in Jenkins:
 
-- **AWS Credentials:** Access Key ID & Secret Key with ECS and ECR permissions
-- **GitHub Credentials:** Personal Access Token or SSH key
-- **DockerHub Credentials:** Username and Personal Access Token
+- **AWS Credentials:** Access Key ID & Secret Key 
+- **GitHub Credentials:** Username and Personal Access Token 
+- **DockerHub Credentials:** Username and Password
 
 ---
 
@@ -87,7 +88,7 @@ terraform init
 terraform apply
 ```
 
-> This will create a Jenkins EC2 instance with proper security groups and IAM roles.
+> This will create a Jenkins EC2 instance 
 
 ---
 
@@ -105,7 +106,7 @@ terraform apply
 > - ECS cluster & task definition  
 > - Application Load Balancer (ALB)  
 > - ECS service in private subnets  
-> - IAM roles, Security Groups, and auto-scaling group (if needed)
+> - IAM roles, Security Groups, and auto-scaling group 
 
 ---
 
@@ -124,31 +125,15 @@ Pipeline steps:
 - Clone code from GitHub
 - Install Node.js dependencies
 - Build Docker image
-- Push to DockerHub / Amazon ECR
-- Deploy container to ECS
+- Push to DockerHub and Amazon ECR
+- Deploy container to ECS 
 
 ---
 
-## 🐳 Docker Instructions
-
-You can build and run the app locally:
-
-### 🔨 Build Docker Image
-
-```bash
-cd app
-docker build -t simpletimeservice .
-```
-
-### ▶️ Run Docker Container
-
-```bash
-docker run -p 8081:8081 simpletimeservice
-```
 
 ### 🔎 Access App
 
-Visit: `http://localhost:8081`
+Visit: `http://<jenkins_ip>:8081`
 
 Example Response:
 
@@ -190,7 +175,7 @@ docker pull <your-dockerhub-username>/simpletimeservice:latest
 
 ## 📌 Notes
 
-- Application is a Node.js Express server
+- Application is a Node.js server
 - Dockerfile uses non-root user for security
 - No secrets are committed to GitHub
 - Designed with IaC & DevOps best practices
@@ -200,10 +185,13 @@ docker pull <your-dockerhub-username>/simpletimeservice:latest
 ## 📧 Submission
 
 Please clone the repository from:  
-🔗 https://github.com/<your-username>/particle41
+🔗 https://github.com/<eswar-sai-kumar>/particle41
 
 If you have any questions or issues, feel free to contact me.
 
+Mail: eswarsaikumarlakkimsetti@gmail.com
+LinkedIn: https://www.linkedin.com/in/lakkimsetti-eswar-sai-kumar/
+
 ---
 
-**Made with ❤️ by Lakkimsetti Eswar Sai Kumar**
+**Made by Lakkimsetti Eswar Sai Kumar**
