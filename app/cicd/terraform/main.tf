@@ -3,7 +3,7 @@ module "jenkins" {
 
   name = "jenkins"
 
-  instance_type          = "t3.small"
+  instance_type          = "t3.large"
   vpc_security_group_ids = ["sg-0fb4314a3e3c19b76"] #replace your SG
   subnet_id = "subnet-026fa8e1dc737230f" #replace your Subnet
   ami = data.aws_ami.ami_info.id
