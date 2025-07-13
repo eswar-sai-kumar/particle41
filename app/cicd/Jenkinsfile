@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        IMAGE_NAME = 'eswarsaikumar/simpletimeservice'
+        IMAGE_NAME = 'eswarsaikumar/expense-simpletimeservice'
         DOCKER_CREDENTIALS_ID = 'dockerhub-credentials' 
         AWS_CREDENTIALS_ID = 'aws-credentials'
         AWS_REGION = 'us-east-1'
