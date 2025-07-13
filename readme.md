@@ -5,6 +5,9 @@ Welcome to my submission for the Particle41 DevOps Team Challenge. This reposito
 
 ---
 
+Video Explanation: https://youtu.be/EoD5qZT8208?si=s2QJnPATkcoD9_EP
+
+
 ## 📁 Repository Structure
 
 ```
@@ -186,6 +189,8 @@ docker pull <your-dockerhub-username>/simpletimeservice:latest
 
 Please clone the repository from:  
 🔗 https://github.com/eswar-sai-kumar/particle41
+
+Video Explanation: https://youtu.be/EoD5qZT8208?si=s2QJnPATkcoD9_EP
 
 If you have any questions or issues, feel free to contact me.
 
