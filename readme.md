@@ -45,7 +45,7 @@ Build and deploy a simple web service called `SimpleTimeService`, which:
 Access the app (replace `<PUBLIC-IP>` with actual Jenkins server IP):
 
 ```
-http://<PUBLIC-IP>:8080
+<PUBLIC-IP>:8080
 ```
 
 ---
