@@ -5,8 +5,6 @@ Welcome to my submission for the Particle41 DevOps Team Challenge. This reposito
 
 ---
 
-Video Explanation: https://youtu.be/EoD5qZT8208?si=s2QJnPATkcoD9_EP
-
 
 ## 📁 Repository Structure
 
